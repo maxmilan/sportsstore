@@ -1,10 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import Vuelidate from "vuelidate";
 import Axios from "axios";
 
 import CartModule from "./cart";
+import OrdersModule from "./orders";
 
 Vue.use(Vuex);
+Vue.use(Vuelidate);
 
 const baseUrl = "http://localhost:3500";
 const productsUrl = `${baseUrl}/products`;
@@ -12,7 +15,7 @@ const categoriesUrl = `${baseUrl}/categories`;
 
 export default new Vuex.Store({
   strict: true,
-  modules: { cart: CartModule },
+  modules: { cart: CartModule, orders: OrdersModule },
   state: {
     products: [],
     categoriesList: [],

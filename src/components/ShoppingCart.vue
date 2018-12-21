@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col bg-dark text-white">
         <a class="navbar-brand">SPORTS STORE</a>
-        <cart-summary/>
       </div>
     </div>
     <div v-if="lines.length > 0">
@@ -50,6 +49,9 @@
           <router-link to="/" class="btn btn-secondary m-1">
             {{ lines.length > 0 ? 'Continue shopping' : 'Start shopping' }}
           </router-link>
+          <router-link to="/checkout" class="btn btn-primary m-1" v-show="lines.length > 0">
+            Checkout
+          </router-link>
         </div>
       </div>
     </div>
@@ -59,10 +61,9 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import CartLine from './ShoppingCartLine';
-import CartSummary from './CartSummary';
 
 export default {
-  components: { CartLine, CartSummary },
+  components: { CartLine },
   computed: {
     ...mapState({ lines: state => state.cart.lines }),
     ...mapGetters({ totalPrice: 'cart/totalPrice' })

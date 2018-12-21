@@ -49,6 +49,10 @@ export default {
     },
     storeCartData(context) {
       localStorage.setItem("cart", JSON.stringify(context.state.lines));
+    },
+    clearCartData(context) {
+      context.commit("setCartData", []);
+      localStorage.setItem("cart", JSON.stringify([]));
     }
   }
 }
