@@ -10,7 +10,7 @@ var data = [
   { id: 9, name: "Bling Bling King", category: "Chess", description: "Gold-plated, diamond-studded King", price: 1200 }
 ]
 
-export default function () {
+module.exports = function () {
   return {
     products: data,
     categories: [...new Set(data.map(p => p.category))].sort(),
