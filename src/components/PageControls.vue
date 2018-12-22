@@ -12,7 +12,7 @@
         <button v-for="i in pageNumbers" v-bind:key="i"
                 class="btn btn-secpmdary"
                 v-bind:class="{ 'btn-primary': i == currentPage }"
-                v-on:click="setCurrentPage(i)"
+                v-on:click="updateCurrentPage(i)"
         >
           {{ i }}
         </button>
@@ -22,20 +22,20 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
+  props: ['perPage', 'pagesCount', 'currentPage'],
   computed: {
-    ...mapState(['currentPage', 'perPage']),
-    ...mapGetters(['pagesCount']),
     pageNumbers() {
       return Array.from(Array(this.pagesCount + 1).keys()).slice(1);
     }
   },
   methods: {
-    ...mapMutations(['setCurrentPage', 'setPageSize']),
     updatePerPage(event) {
-      this.setPageSize(Number(event.target.value));
+      this.$emit('perPageUpdated', Number(event.target.value));
+    },
+    updateCurrentPage(value) {
+      this.$emit('currentPageUpdated', value);
     }
   }
 }

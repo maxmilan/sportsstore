@@ -14,24 +14,27 @@
         </button>
       </div>
     </div>
-    <page-controls/>
+    <page-controls :perPage="perPage" :pagesCount="pagesCount" :currentPage="currentPage"
+                   @perPageUpdated="setPageSize" @currentPageUpdated="setCurrentPage"
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapState, mapMutations } from "vuex";
 import PageControls from "./PageControls"
 
 export default {
   components: { PageControls},
   methods: {
-    ...mapMutations({ addProduct: "cart/addProduct" }),
+    ...mapMutations({ setPageSize: "setPageSize", setCurrentPage: "setCurrentPage", addProduct: "cart/addProduct" }),
     addToCart(product) {
       this.addProduct(product);
     }
   },
   computed: {
-    ...mapGetters(['currentPageProducts'])
+    ...mapState(['currentPage', 'perPage']),
+    ...mapGetters(['pagesCount', 'currentPageProducts'])
    }
 }
 </script>
