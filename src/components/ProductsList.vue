@@ -1,5 +1,6 @@
 <template>
   <div>
+    <search/>
     <div v-for="product in products" :key="product.id" class="card m-1 p-1 bg-light">
       <h4>
         {{product.name}}
@@ -23,9 +24,10 @@
 <script>
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 import PageControls from "./PageControls"
+import Search from "./Search";
 
 export default {
-  components: { PageControls},
+  components: { PageControls, Search },
   methods: {
     ...mapMutations({ addProduct: "cart/addProduct" }),
     ...mapActions({ setPageSize: "setPageSize", setCurrentPage: "setCurrentPage" }),

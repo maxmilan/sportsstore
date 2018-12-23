@@ -22,7 +22,8 @@ export default new Vuex.Store({
     perPage: 4,
     currentCategory: 'All',
     pages: {},
-    productsCount: 0
+    productsCount: 0,
+    searchString: ''
   },
   getters: {
     products: state => {
@@ -58,6 +59,9 @@ export default new Vuex.Store({
     },
     clearPages(state) {
       state.pages = {};
+    },
+    setSearchString(state, value) {
+      state.searchString = value;
     }
   },
   actions: {
@@ -69,6 +73,9 @@ export default new Vuex.Store({
       let url = `${productsUrl}?_page=${context.state.currentPage}&_limit=${context.state.perPage}`;
       if (context.state.currentCategory != 'All') {
         url += `&category=${context.state.currentCategory}`;
+      }
+      if (context.state.searchString != '') {
+        url += `&q=${context.state.searchString}`;
       }
       let response = await Axios.get(url);
       context.commit('setProductsCount', Number(response.headers['x-total-count']));
@@ -89,6 +96,12 @@ export default new Vuex.Store({
       context.commit('clearPages');
       context.commit('setCurrentCategory', value);
       context.dispatch('getProductsPage');
+    },
+    submitSearch(context, value) {
+      context.commit('setSearchString', value);
+      context.commit('clearPages');
+      context.dispatch('getProductsPage');
+      context.commit('setCurrentPage', 1);
     }
   }
 })
