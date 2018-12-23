@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="product in currentPageProducts" :key="product.id" class="card m-1 p-1 bg-light">
+    <div v-for="product in products" :key="product.id" class="card m-1 p-1 bg-light">
       <h4>
         {{product.name}}
           <span class="badge badge-pill badge-primary float-right">
@@ -21,20 +21,21 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations } from "vuex";
+import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 import PageControls from "./PageControls"
 
 export default {
   components: { PageControls},
   methods: {
-    ...mapMutations({ setPageSize: "setPageSize", setCurrentPage: "setCurrentPage", addProduct: "cart/addProduct" }),
+    ...mapMutations({ addProduct: "cart/addProduct" }),
+    ...mapActions({ setPageSize: "setPageSize", setCurrentPage: "setCurrentPage" }),
     addToCart(product) {
       this.addProduct(product);
     }
   },
   computed: {
     ...mapState(['currentPage', 'perPage']),
-    ...mapGetters(['pagesCount', 'currentPageProducts'])
+    ...mapGetters(['pagesCount', 'products'])
    }
 }
 </script>

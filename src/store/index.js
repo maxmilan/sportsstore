@@ -17,26 +17,19 @@ export default new Vuex.Store({
   strict: true,
   modules: { cart: CartModule, orders: OrdersModule },
   state: {
-    products: [],
     categoriesList: [],
     currentPage: 1,
     perPage: 4,
-    currentCategory: 'All'
+    currentCategory: 'All',
+    pages: {},
+    productsCount: 0
   },
   getters: {
-    productsFilteredByCategory: state => {
-      if(state.currentCategory == 'All') {
-        return state.products;
-      } else {
-        return state.products.filter((item) => item.category == state.currentCategory);
-      }
+    products: state => {
+      return state.pages[state.currentPage];
     },
-    currentPageProducts: (state, getters) => {
-      let index = (state.currentPage - 1) * state.perPage;
-      return getters.productsFilteredByCategory.slice(index, index + state.perPage);
-    },
-    pagesCount: (state, getters) => {
-      return Math.ceil(getters.productsFilteredByCategory.length / state.perPage);
+    pagesCount: (state) => {
+      return Math.ceil(state.productsCount / state.perPage);
     },
     categories: state => {
       return ['All', ...Array.from(state.categoriesList).sort()];
@@ -54,16 +47,48 @@ export default new Vuex.Store({
       state.currentCategory = value;
       state.currentPage = 1;
     },
-    setData(state, payload) {
-      state.products = payload.pdata;
-      state.categoriesList = payload.cdata;
+    setCategoriesList(state, value) {
+      state.categoriesList = value;
+    },
+    setProductsCount(state, value) {
+      state.productsCount = value;
+    },
+    addPage(state, payload) {
+      Vue.set(state.pages, payload.page, payload.data);
+    },
+    clearPages(state) {
+      state.pages = {};
     }
   },
   actions: {
     async loadData(context) {
-      let pdata = (await Axios.get(productsUrl)).data;
-      let cdata = (await Axios.get(categoriesUrl)).data
-      context.commit('setData', { pdata, cdata });
+      context.commit('setCategoriesList', (await Axios.get(categoriesUrl)).data);
+      await context.dispatch('getProductsPage');
+    },
+    async getProductsPage(context) {
+      let url = `${productsUrl}?_page=${context.state.currentPage}&_limit=${context.state.perPage}`;
+      if (context.state.currentCategory != 'All') {
+        url += `&category=${context.state.currentCategory}`;
+      }
+      let response = await Axios.get(url);
+      context.commit('setProductsCount', Number(response.headers['x-total-count']));
+      context.commit('addPage', { page: context.state.currentPage, data: response.data });
+    },
+    setCurrentPage(context, value) {
+      context.commit('setCurrentPage', value);
+      if (!context.state.pages[value]) {
+        context.dispatch('getProductsPage');
+      }
+    },
+    setPageSize(context, value) {
+      context.commit('clearPages');
+      context.commit('setPageSize', value);
+      context.dispatch('getProductsPage');
+    },
+    setCurrentCategory(context, value) {
+      context.commit('clearPages');
+      context.commit('setCurrentCategory', value);
+      context.dispatch('getProductsPage');
     }
   }
 })
