@@ -1,4 +1,5 @@
 import Axios from "axios";
+import Vue from "vue";
 
 const ORDERS_URL ="http://localhost:3500/orders";
 
@@ -9,6 +10,9 @@ export default {
   mutations: {
     setOrders(state, value) {
       state.orders = value;
+    },
+    setOrderShipment(state, payload) {
+      Vue.set(payload.order, 'shipped', payload.value);
     }
   },
   actions: {
@@ -19,6 +23,10 @@ export default {
     async getOrders(context) {
       let orders = (await context.rootGetters.authenticatedAxios.get(ORDERS_URL)).data;
       context.commit('setOrders', orders);
+    },
+    async setOrderShipment(context, payload) {
+      context.commit('setOrderShipment', payload);
+      await context.rootGetters.authenticatedAxios.put(`${ORDERS_URL}/${payload.order.id}`, payload.order);
     }
   }
 }

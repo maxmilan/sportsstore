@@ -20,6 +20,9 @@
             <th class="text-right">
               Total
             </th>
+            <th>
+              Is shipped?
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +34,9 @@
             </td>
             <td class="text-right">
               {{ getTotal(order) | formattedPrice }}
+            </td>
+            <td class="text-center">
+              <toggle-button :value="order.shipped" @change="toggleShipment(order, $event)"/>
             </td>
           </tr>
         </tbody>
@@ -55,9 +61,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getOrders']),
+    ...mapActions(['getOrders', 'setOrderShipment']),
     getTotal(order) {
       return order.cartLines.reduce((memo, line) => memo + line.quantity * line.product.price, 0);
+    },
+    toggleShipment(order, event) {
+      this.setOrderShipment({ order, value: event.value });
     }
   },
   created() {
