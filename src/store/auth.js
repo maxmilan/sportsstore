@@ -7,6 +7,15 @@ export default {
     authenticated: false,
     jwt: null
   },
+  getters: {
+    authenticatedAxios(state) {
+      return Axios.create({
+        headers: {
+          "Authorization": `Bearer<${state.jwt}>`
+        }
+      });
+    }
+  },
   mutations: {
     setAuthenticated(state, tokenValue) {
       state.authenticated = true;
