@@ -6,6 +6,8 @@ import ShoppingCart from '../components/ShoppingCart';
 import Checkout from '../components/Checkout';
 import Authentication from '../components/admin/Authentication';
 import Admin from '../components/admin/Admin';
+import AdminProducts from '../components/admin/Products';
+import AdminOrders from '../components/admin/Orders';
 
 import dataStore from '../store';
 
@@ -26,7 +28,12 @@ export default new VueRouter({
         } else {
           next('/login');
         }
-      }
+      },
+      children: [
+        { path: 'products', component: AdminProducts },
+        { path: 'orders', component: AdminOrders },
+        { path: '', redirect: '/admin/products' }
+      ]
     }
   ]
 })
