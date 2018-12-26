@@ -26,19 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="order in displayOrders" :key="order.id">
-            <td>{{ order.id }}</td>
-            <td>{{ order.name }}</td>
-            <td>
-              {{ `${order.city}, ${order.zip}` }}
-            </td>
-            <td class="text-right">
-              {{ getTotal(order) | formattedPrice }}
-            </td>
-            <td class="text-center">
-              <toggle-button :value="order.shipped" @change="toggleShipment(order, $event)"/>
-            </td>
-          </tr>
+          <order v-for="order in displayOrders" :order="order" :key="order.id" @shipmentToggled="toggleShipment"/>
         </tbody>
       </table>
     </div>
@@ -47,6 +35,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import Order from "./Order";
 
 export default {
   data() {
@@ -54,6 +43,7 @@ export default {
       showShipped: false
     }
   },
+  components: { Order },
   computed: {
     ...mapState({ orders: state => state.orders.orders }),
     displayOrders() {
@@ -62,11 +52,8 @@ export default {
   },
   methods: {
     ...mapActions(['getOrders', 'setOrderShipment']),
-    getTotal(order) {
-      return order.cartLines.reduce((memo, line) => memo + line.quantity * line.product.price, 0);
-    },
-    toggleShipment(order, event) {
-      this.setOrderShipment({ order, value: event.value });
+    toggleShipment(payload) {
+      this.setOrderShipment(payload);
     }
   },
   created() {

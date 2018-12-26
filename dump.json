@@ -2295,7 +2295,7 @@
         }
       ],
       "id": 1,
-      "shipped": false
+      "shipped": true
     },
     {
       "name": "Alex Noname",
