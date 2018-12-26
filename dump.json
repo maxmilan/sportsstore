@@ -2,24 +2,10 @@
   "products": [
     {
       "id": 3,
-      "name": "Refined Rubber Car",
+      "name": "Refined Dont remember",
       "category": "Watersports",
       "description": "Watersports: Necessitatibus fuga non.",
       "price": "523.00"
-    },
-    {
-      "id": 62,
-      "name": "Refined Concrete Tuna",
-      "category": "Watersports",
-      "description": "Watersports: Quo quod vero.",
-      "price": "832.00"
-    },
-    {
-      "id": 66,
-      "name": "Sleek Metal Salad",
-      "category": "Watersports",
-      "description": "Watersports: Labore molestias pariatur.",
-      "price": "360.00"
     },
     {
       "id": 67,
@@ -51,7 +37,7 @@
     },
     {
       "id": 84,
-      "name": "Generic Concrete Soap",
+      "name": "Generic Concr. Soap",
       "category": "Running",
       "description": "Running: Beatae error temporibus.",
       "price": "653.00"
@@ -65,7 +51,7 @@
     },
     {
       "id": 86,
-      "name": "Sleek Rubber Pants",
+      "name": "Sleek Rubb. Pants",
       "category": "Soccer",
       "description": "Soccer: Animi aspernatur quas.",
       "price": "688.00"

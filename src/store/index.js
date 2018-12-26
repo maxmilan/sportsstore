@@ -63,6 +63,9 @@ export default new Vuex.Store({
     },
     setSearchString(state, value) {
       state.searchString = value;
+    },
+    setProductName(state, payload) {
+      Vue.set(payload.product, 'name', payload.value);
     }
   },
   actions: {
@@ -86,6 +89,10 @@ export default new Vuex.Store({
       await context.rootGetters.authenticatedAxios.delete(`${productsUrl}/${product.id}`);
       context.commit('clearPages');
       context.dispatch('getProductsPage');
+    },
+    async updateProductName(context, payload) {
+      context.commit('setProductName', payload);
+      await context.rootGetters.authenticatedAxios.patch(`${productsUrl}/${payload.product.id}`, payload.product);
     },
     setCurrentPage(context, value) {
       context.commit('setCurrentPage', value);

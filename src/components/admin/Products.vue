@@ -10,18 +10,8 @@
         <th></th>
       </thead>
       <tbody>
-        <tr v-for="product in products" :key="product.id">
-          <td>{{ product.id }}</td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.category }}</td>
-          <td>{{ product.description }}</td>
-          <td>{{ product.price | formattedPrice }}</td>
-          <td>
-            <button class="btn btn-danger" @click="deleteProduct(product)">
-              Delete
-            </button>
-          </td>
-        </tr>
+        <product v-for="product in products" :product="product" :key="product.id"
+                 @productDeleted="deleteProduct" @productNameChanged="updateProductName"/>
       </tbody>
     </table>
     <page-controls :perPage="perPage" :currentPage="currentPage" :pagesCount="pagesCount"
@@ -31,16 +21,20 @@
 
 <script>
 import PageControls from "../PageControls";
+import Product from "./Product";
 import { mapGetters, mapState, mapActions } from "vuex";
 
 export default {
-  components: { PageControls },
+  components: { Product, PageControls },
   computed: {
     ...mapState(['currentPage', 'perPage']),
     ...mapGetters(['pagesCount', 'products'])
   },
   methods: {
-    ...mapActions({ setPageSize: "setPageSize", setCurrentPage: "setCurrentPage", deleteProduct: "deleteProduct" })
+    ...mapActions({
+      setPageSize: "setPageSize", setCurrentPage: "setCurrentPage", deleteProduct: "deleteProduct",
+      updateProductName: "updateProductName"
+    })
   }
 }
 </script>

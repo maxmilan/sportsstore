@@ -7,10 +7,10 @@
     </div>
     <div class="row">
       <div class="col-3 bg-secondary p-2">
-        <router-link to="/admin/products" class="btn btn-block btn-primary navigation-link" active-class="selected">
+        <router-link to="/admin/products" class="btn btn-block btn-primary navigation-link" active-class="active">
           Products
         </router-link>
-        <router-link to="/admin/orders" class="btn btn-block btn-primary navigation-link" active-class="selected">
+        <router-link to="/admin/orders" class="btn btn-block btn-primary navigation-link" active-class="active">
           Orders
         </router-link>
       </div>
@@ -20,14 +20,4 @@
     </div>
   </div>
 </template>
-
-<style>
-  .selected {
-    border-color: #ffc107;
-    border-width: 3px;
-  }
-  a.navigation-link:hover {
-    border-color: #ffc107;
-  }
-</style>
 
