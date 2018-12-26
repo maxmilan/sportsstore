@@ -4,7 +4,7 @@
       Orders
     </h4>
 
-    <toggle-button v-model="showShipped"/>
+    <toggle-button v-model="showShipped" color="#007bff"/>
     Show shipped orders
 
     <h3 v-if="displayOrders.length == 0">

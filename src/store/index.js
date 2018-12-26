@@ -82,6 +82,11 @@ export default new Vuex.Store({
       context.commit('setProductsCount', Number(response.headers['x-total-count']));
       context.commit('addPage', { page: context.state.currentPage, data: response.data });
     },
+    async deleteProduct(context, product) {
+      await context.rootGetters.authenticatedAxios.delete(`${productsUrl}/${product.id}`);
+      context.commit('clearPages');
+      context.dispatch('getProductsPage');
+    },
     setCurrentPage(context, value) {
       context.commit('setCurrentPage', value);
       if (!context.state.pages[value]) {
